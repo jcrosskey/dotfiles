@@ -1,0 +1,87 @@
+execute pathogen#infect()
+
+" filetype stuff
+filetype on
+filetype plugin on
+filetype indent on
+filetype plugin indent on
+
+
+" Use Vim settings rathaer than Vi settings
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+"set t_te= t_ti = 
+"au VimLeave * : !clear
+
+" TODO: this may not be in the correct place. It is intended to allow
+" overriding <Leader>.
+" source ~/.vimrc.before if it exists.
+if filereadable(expand("~/.vimrc.before"))
+  source ~/.vimrc.before
+endif
+
+set term=ansi
+syntax on
+set relativenumber
+set ruler
+set incsearch
+set bg=dark
+set sw=4
+"replace tab by 4 spaces, useful for python editing
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set hlsearch "highlight matches of the searched string
+set tags=./.tags;/
+
+set showcmd "show the typing command
+set showmode "show the current mode
+set visualbell "disable audio bell
+
+set columns=100
+autocmd VimResized * if(&columns > 100) | set columns=100 | endif
+set wrap
+set linebreak
+
+"map keys to add parentheses/curly braces around a word
+map \p i(<Esc>ea)<Esc>
+map \c i{<Esc>ea}<Esc>
+
+vmap X y/<C-R>"<CR>
+" see which syntaxes may enable folding
+" !grep -l fold $VIMRUNTIME/syntax/*.vim
+let sh_fold_enabled=1
+let javascript_fold=1
+let javascript_fold_enabled=1
+let g:tex_flavor='latex'
+
+autocmd Syntax {javascript} setlocal foldmethod=syntax
+autocmd Syntax {sh} setlocal foldmethod=indent
+
+" ~/.vimrc (configuration file for vim only)
+" skeletons
+function! SKEL_spec()
+    0r /usr/share/vim/current/skeletons/skeleton.spec
+    language time en_US
+    let login = system('whoami')
+    if v:shell_error
+       let login = 'unknown'
+    else
+       let newline = stridx(login, "\n")
+       if newline != -1
+        let login = strpart(login, 0, newline)
+       endif
+    endif                                                         
+    let hostname = system('hostname -f')
+    if v:shell_error
+        let hostname = 'localhost'
+    else
+        let newline = stridx(hostname, "\n")
+        if newline != -1
+        let hostname = strpart(hostname, 0, newline)
+        endif
+    endif
+    exe "%s/specRPM_CREATION_DATE/" . strftime("%a\ %b\ %d\ %Y") . "/ge"
+    exe "%s/specRPM_CREATION_AUTHOR_MAIL/" . login . "@" . hostname . "/ge"
+    exe "%s/specRPM_CREATION_NAME/" . expand("%:t:r") . "/ge"
+endfunction

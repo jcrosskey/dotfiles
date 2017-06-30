@@ -1,0 +1,2 @@
+# Set read-line mode to vi, instead of emacs as in default
+set editing-mode vi
