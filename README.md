@@ -1,2 +1,2 @@
 # dotfiles
-config files for shell, vim, git, etc
+Configuration files for shell, vim, git, python, etc
