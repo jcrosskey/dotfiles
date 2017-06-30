@@ -1,0 +1,13 @@
+# User specific aliases and functions
+alias ll='ls -lF'
+alias la='ls -alF'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias cl='clear'
+alias dir='ls -l'
+# add / to directories
+alias md='mkdir -p'
+alias o='less'
+alias rd='rmdir'
+alias vi='vim'
