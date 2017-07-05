@@ -16,3 +16,4 @@
     default = simple
 [core]
     excludesfile = /home/jjcrosskey/.gitignore_global
+    hooksPath = /home/jjcrosskey/.git/hooks

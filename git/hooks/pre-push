@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# This is a pre-push hook that does the following:
+# 1. check that the current working directory is clean
+# 2. update master branch from remote
+# 3. rebase local changes on master branch
+# If any of these steps fails, abort push, and spit out messages.
+
+current_branch=`git rev-parse --abbrev-ref HEAD`
+
+set -e
+
+echo 'Switch to master branch'
+git checkout master
+
+echo 'Update master branch from remote'
+git pull origin master
+
+echo 'Switch back to local branch'
+git checkout $current_branch
+
+echo 'Rebase on master branch'
+git rebase master
+
+exit 0

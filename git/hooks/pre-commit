@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+echo "commit from branch $BRANCH"
+
+if [[ "$BRANCH" == "master" ]]; then
+    echo "You are on branch $BRANCH, are you sure you want to commit to this branch?"
+    echo "If so, commit with -n to bypass this hook"
+    exit 1
+fi
+
+if [ "`git diff --check --cached | wc -c`" -gt 0 ]; then
+	echo "Your spaces don't agree with your core.whitespace rules."
+	echo 'Please run `git diff --check HEAD` to see your errors.'
+	echo "You can commit with -n to bypass this pre-commit hook."
+	exit 2
+fi
+
+exit 0
