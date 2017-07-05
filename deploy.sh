@@ -14,12 +14,12 @@ do
     echo -e "\ntransfer $dir files..."
     for f in $(ls $dir); do
         echo $f
-        scp $dir/$f $server:~/.$f
+        rsync $dir/$f $server:~/.$f
     done
 done
 
 echo -e "\ntransfer vim files..."
 f="vim/vimrc"
 echo $f
-scp $f $server:~/.vimrc
+rsync $f $server:~/.vimrc
 rsync -ravz vim $server:~/.vim
