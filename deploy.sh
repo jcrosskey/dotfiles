@@ -22,3 +22,4 @@ echo -e "\ntransfer vim files..."
 f="vim/vimrc"
 echo $f
 scp $f $server:~/.vimrc
+rsync -ravz vim $server:~/.vim

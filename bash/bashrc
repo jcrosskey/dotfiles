@@ -136,6 +136,16 @@ function prompt {
 prompt
 
 
+ssh() {
+	if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+		tmux rename-window "$(echo $* | cut -d . -f 1)"
+		command ssh "$@"
+		tmux set-window-option automatic-rename "on" 1>/dev/null
+	else
+		command ssh "$@"
+	fi
+}
+
 case $TERM in
         xterm*)
             PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}\007"'
@@ -145,11 +155,17 @@ case $TERM in
      esac
 
 # Tell grep to highlight matches
-export GREP_OPTIONS='--color=auto'
-
+#export GREP_OPTIONS='--color=auto'
+## for MacPorts
 export EDITOR=vim
+export JJHOME=/mnt/nfs/jjcrosskey
 
 # Set the terminal tab title
 export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}\007"'
 export PYTHONSTARTUP=~/.pythonrc.py
 
+# added by Anaconda2 4.1.1 installer
+export PATH="$PATH:/home/jjcrosskey/Software/java/jre1.8.0_131/bin"
+
+# added by Anaconda3 4.4.0 installer
+export PATH="/home/jjcrosskey/anaconda3/bin:$PATH"
