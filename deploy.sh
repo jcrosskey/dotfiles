@@ -23,3 +23,4 @@ f="vim/vimrc"
 echo $f
 rsync $f $server:~/.vimrc
 rsync -ravz vim $server:~/.vim
+rsync -ravz ipython/ $server:~/.ipython/
