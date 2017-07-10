@@ -7,19 +7,41 @@
 # If any of these steps fails, abort push, and spit out messages.
 
 current_branch=`git rev-parse --abbrev-ref HEAD`
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
 set -e
 
-echo 'Switch to master branch'
+if [[ `git status | grep 'Untracked files'` ]]; then
+  echo -e "You have ${RED}*Untracked Files*${NC}, commit before pushing. Aborting."
+  exit 1
+fi
+
+if [[ `git status | grep 'modified:'` ]]; then
+  echo -e "You have ${RED}*Modified Files*${NC}, commit before pushing. Aborting."
+  exit 1
+fi
+
+if [[ "$BRANCH" == "master" ]]; then
+  echo -e "${RED}You should switch to your feature branch to push, and master branch is for pulling. Aborting.${NC}"
+  exit 1
+fi
+
+echo -e "${RED}*SWITCH TO MASTER*${NC}"
 git checkout master
 
-echo 'Update master branch from remote'
-git pull origin master
+echo -e "${RED}*UPDATE MASTER*${NC}"
+git pull
 
-echo 'Switch back to local branch'
-git checkout $current_branch
+echo -e "${RED}*SWITCH BACK TO YOUR FEATURE BRANCH ${current_branch}*${NC}"
+git checkout ${current_branch}
 
-echo 'Rebase on master branch'
-git rebase master
+echo -e "${RED}*REBASE YOUR FEATURE BRANCH COMMIT*${NC}"
+REBASEMSG=`git rebase master`
+echo "$REBASEMSG"
+if [[ `echo "$REBASEMSG" | grep 'conflict'` ]]; then
+  echo -e "${RED} Conflicts exist in rebasing. Please resolve and git rebase --continue. Aborting.${NC}"
+  exit 1
+fi
 
 exit 0
