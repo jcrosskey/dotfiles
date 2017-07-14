@@ -1,5 +1,8 @@
 execute pathogen#infect()
 
+" no more escape!
+inoremap jj <Esc>
+
 " filetype stuff
 filetype on
 filetype plugin on
