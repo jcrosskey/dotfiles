@@ -41,10 +41,10 @@ set showcmd "show the typing command
 set showmode "show the current mode
 set visualbell "disable audio bell
 
-set columns=100
-autocmd VimResized * if(&columns > 100) | set columns=100 | endif
-set wrap
-set linebreak
+"set columns=100
+"autocmd VimResized * if(&columns > 100) | set columns=100 | endif
+"set wrap
+"set linebreak
 
 "map keys to add parentheses/curly braces around a word
 map \p i(<Esc>ea)<Esc>
