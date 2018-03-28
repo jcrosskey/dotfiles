@@ -1,90 +1,83 @@
-execute pathogen#infect()
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-syntastic/syntastic'
+"Plugin 'nvie/vim-flake8'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'Chiel92/vim-autoformat'
+
+call vundle#end()
+filetype plugin indent on
 
 " no more escape!
 inoremap jk <Esc>
-
-" filetype stuff
-filetype on
-filetype plugin on
-filetype indent on
-filetype plugin indent on
-
-
-" Use Vim settings rathaer than Vi settings
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-"set t_te= t_ti = 
-"au VimLeave * : !clear
-
-" TODO: this may not be in the correct place. It is intended to allow
-" overriding <Leader>.
-" source ~/.vimrc.before if it exists.
-if filereadable(expand("~/.vimrc.before"))
-  source ~/.vimrc.before
-endif
-
-set term=ansi
-syntax on
+" Relative line number and ruler
 set relativenumber
 set ruler
-set incsearch
-set bg=dark
-set sw=4
-"replace tab by 4 spaces, useful for python editing
-set tabstop=4
-set shiftwidth=4
-set expandtab
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+" Enable folding with the spacebar
+nnoremap <space> za
+
 set hlsearch "highlight matches of the searched string
 set tags=./.tags;/
 
 set showcmd "show the typing command
 set showmode "show the current mode
 set visualbell "disable audio bell
-
-"set columns=100
-"autocmd VimResized * if(&columns > 100) | set columns=100 | endif
-"set wrap
-"set linebreak
+syntax on
 
 "map keys to add parentheses/curly braces around a word
 map \p i(<Esc>ea)<Esc>
 map \c i{<Esc>ea}<Esc>
 
 vmap X y/<C-R>"<CR>
-" see which syntaxes may enable folding
-" !grep -l fold $VIMRUNTIME/syntax/*.vim
-let sh_fold_enabled=1
-let javascript_fold=1
-let javascript_fold_enabled=1
-let g:tex_flavor='latex'
+" Flag unwanted whitespace, following problematic
+" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match ExtraWhiteSpace /\s\+$/
+let python_highlight_all=1
 
-autocmd Syntax {javascript} setlocal foldmethod=syntax
-autocmd Syntax {sh} setlocal foldmethod=indent
+" Python Indentation
+autocmd BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
+    \ set encoding=utf-8 |
 
-" ~/.vimrc (configuration file for vim only)
-" skeletons
-function! SKEL_spec()
-    0r /usr/share/vim/current/skeletons/skeleton.spec
-    language time en_US
-    let login = system('whoami')
-    if v:shell_error
-       let login = 'unknown'
-    else
-       let newline = stridx(login, "\n")
-       if newline != -1
-        let login = strpart(login, 0, newline)
-       endif
-    endif                                                         
-    let hostname = system('hostname -f')
-    if v:shell_error
-        let hostname = 'localhost'
-    else
-        let newline = stridx(hostname, "\n")
-        if newline != -1
-        let hostname = strpart(hostname, 0, newline)
-        endif
-    endif
-    exe "%s/specRPM_CREATION_DATE/" . strftime("%a\ %b\ %d\ %Y") . "/ge"
-    exe "%s/specRPM_CREATION_AUTHOR_MAIL/" . login . "@" . hostname . "/ge"
-    exe "%s/specRPM_CREATION_NAME/" . expand("%:t:r") . "/ge"
-endfunction
+" Full stack dev Indentation
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+
+" ==========Plugin settings===========
+" YouCompleteMe
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" See the docstrings for the folded code
+let g:SimpylFold_docstring_preview=1
+
+"ignore files in NERDTree
+let NERDTreeIgnore=['\.pyc$', '\~$']
+
+" Syntastic
+" automatically load errors into the location list
+let g:syntastic_always_populate_loc_list = 1
+" disable check for errors whenever you save the file
+let g:syntastic_check_on_wq = 0
+" check file syntax on open
+let g:syntastic_check_on_open = 1
