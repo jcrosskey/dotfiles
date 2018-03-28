@@ -1,19 +1,29 @@
 [user]
-    email = jjcrosskey@quantmt.com
-    name = JJ Crosskey
+	email = jjcrosskey@quantmt.com
+	name = JJ Crosskey
 [alias]
-    co = checkout
-    ci = commit
-    cm = commit -m 
-    st = status
-    br = branch
-    rv = remote -v
-    po = push origin 
-    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=relative
-    type = cat-file -t
-    dump = cat-file -p
+	co = checkout
+	ci = commit
+	cm = commit -m 
+	cf = commit -n -m
+	recm = commit --amend --no-edit
+	st = status
+	br = branch
+	rv = remote -v
+	pp = push
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=relative
+	type = cat-file -t
+	dump = cat-file -p
+	last = log -1 HEAD
+	unstage = reset HEAD --
+	track = rev-parse --symbolic-full-name @{u}
+	brs = branch -vv
 [push]
-    default = simple
+	default = simple
+[pull]
+	rebase = true
+[merge]
 [core]
-    excludesfile = /home/jjcrosskey/.gitignore_global
-    hooksPath = /home/jjcrosskey/.git/hooks
+	excludesfile = /home/jj/.gitignore_global
+[filter "cat"]
+	clean = test_append
