@@ -162,3 +162,5 @@ export EDITOR=vim
 # Set the terminal tab title
 export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}\007"'
 export PYTHONSTARTUP=~/.pythonrc.py
+
+bind '"jk":"\e"'

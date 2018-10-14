@@ -1,5 +1,5 @@
 [user]
-	email = jjcrosskey@quantmt.com
+	email = crosskey.jj@gmail.com
 	name = JJ Crosskey
 [alias]
 	co = checkout
@@ -9,6 +9,7 @@
 	recm = commit --amend --no-edit
 	st = status
 	br = branch
+	dc = diff --cached
 	rv = remote -v
 	pp = push
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=relative
